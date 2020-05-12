@@ -2,11 +2,7 @@
   "name": "confusion",
   "version": "0.1.0",
   "private": true,
-<<<<<<< HEAD
-  "homepage": ".",
-=======
-  "homepage":".",
->>>>>>> e34c26c852154000fa27222fcdb3c5158885684f
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
