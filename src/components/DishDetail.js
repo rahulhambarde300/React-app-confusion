@@ -1,9 +1,103 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody,
-    CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+    CardTitle, Breadcrumb, BreadcrumbItem, Button,
+    Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import Contact from './ContactComponent';
+import { Control, LocalForm, Errors} from 'react-redux-form';
 
+const required = (val) => val && val.length;
+ 
 
+class CommentForm extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            isModalOpen : false
+        }
+    }
+
+    toggleModal = () =>{
+        this.setState({
+            isModalOpen : !this.state.isModalOpen
+        })
+    }
+
+    handleComment = (values) =>{
+        console.log("Current state is: "+ JSON.stringify(values));
+        alert("Current state is: "+ JSON.stringify(values));
+        this.toggleModal();
+    }
+
+    render(){
+        return(
+        <>
+            <Button outline onClick={this.toggleModal}>
+                <span className="fa fa-pencil fa-lg"></span>Add Comment
+            </Button>
+
+            <Modal isOpen = {this.state.isModalOpen} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+                <ModalBody>
+                    <LocalForm onSubmit={(values)=>this.handleComment(values)}>
+                        <FormGroup>
+                            <Label className="col-12" htmlFor="rating">Rating</Label>
+                            
+                                <Control.select model=".rating" name="rating" 
+                                    className="form-control col-12">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                </Control.select>
+                            
+                        </FormGroup>
+                        <FormGroup>
+                            <Label className="col-12" htmlFor="author">Your Name</Label>
+                                <Control.text model=".author" id="author" name="author" 
+                                    placeholder="Name"
+                                    className="form-group col-12"
+                                    validators={{
+                                        required
+                                    }}
+                                    />
+                                <Errors
+                                    model = ".author"
+                                    className="text-danger"
+                                    show="touched"
+                                    messages={{
+                                        required:'Required'
+                                    }}
+                                    />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label className="col-12" htmlFor="comment">Comment</Label>
+                                <Control.textarea model=".comment" id="comment" name=".comment"
+                                    className="form-group col-12"
+                                    validators={{
+                                        required
+                                    }}
+                                    />
+                                <Errors
+                                    model = ".comment"
+                                    className="text-danger"
+                                    show="touched"
+                                    messages={{
+                                        required:'Required'
+                                    }}
+                                    />
+                        </FormGroup>
+                        <Button type="submit" value="submit" color="primary">
+                            Submit
+                        </Button>
+                    </LocalForm>
+                </ModalBody>
+            </Modal>
+        </>
+        );
+    }
+}
 
 
     function RenderDish({dish}){
@@ -20,7 +114,7 @@ import { Link } from 'react-router-dom';
                     </div>
 
                 );
-        }
+    }
             
     function RenderComments({comments}) {
         if(comments != null)
@@ -37,6 +131,7 @@ import { Link } from 'react-router-dom';
                             )
                         })}
                     </ul>
+                    <CommentForm/>
                 </div>
             );
         
