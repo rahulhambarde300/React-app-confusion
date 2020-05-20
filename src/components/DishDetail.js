@@ -5,6 +5,7 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody,
 import { Link } from 'react-router-dom';
 import Contact from './ContactComponent';
 import { Control, LocalForm, Errors} from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 const required = (val) => val && val.length;
  
@@ -47,9 +48,6 @@ class CommentForm extends Component{
                                     className="form-control col-12">
                                         <option>1</option>
                                         <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
                                 </Control.select>
                             
                         </FormGroup>
@@ -138,7 +136,25 @@ class CommentForm extends Component{
     }
 
     const DishDetail = (props) => {
-        if(props.dish != null)
+        if (props.isLoading){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading/>
+                    </div>
+                </div>
+            )
+        }
+        else if(props.errMess){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            )
+        }
+        else if(props.dish != null)
             return(
                   <div className="container">
                     <div className="row">
